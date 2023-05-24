@@ -22,7 +22,7 @@ python3 Nextion_Fw_Update/update_display
 估计第一次运行肯定冒烟，重点关注python pip install包。具体装啥，你要不看看报错，然后缺啥就装啥呗。
 
 ## 3、参数
-Please Input Update File Name[default:MMDVM_USART_HMI_T124_115200.tft]: //输入同文件夹下的tft文件名称
+Please Input Update File Name[default:MMDVM_USART_HMI_T124_115200.tft]: 输入同文件夹下的tft文件名称
 Please Input Download Baud[9600,19200,38400,57600,115200,230400][default:115200]:选择下载时候的波特率，默认使用115200下载
 Please Input Serial Port[default:/dev/ttySC0]: 选择屏幕串口
 Please Input Retry Times[default:10]: 选择自动重试次数

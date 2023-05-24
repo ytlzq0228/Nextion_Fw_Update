@@ -79,7 +79,7 @@ def sent_file(file_name,ser,download_baud):
 
 
 
-def main(sent_update_file_name,download_baud,portx):
+def flash_tft_file(sent_update_file_name,download_baud,portx):
 	try:
 		
 		#if (input("Find Port Baud?Y/N[default:Y]: ") or "Y")!="N":
@@ -108,11 +108,15 @@ def main(sent_update_file_name,download_baud,portx):
 		ser.write(("whmi-wri %s,%s,0"%(str(file_size),str(download_baud))).encode("UTF-8"))
 		ser.write(bytes.fromhex('ff ff ff'))
 		ser.close()
+		#reconnect serial with new baud parament
 		ser=serial.Serial(portx,download_baud,timeout=None)
 		msg=recv(ser)
-		print(msg)
-		#if msg==b'\x05':
-		time.sleep(3)
+		#print(msg)
+		if msg==b'\x05':
+			print("Echo OK and it will start update file now.")
+		else:
+			print("Warning...Wait Echo timeout but it still OK to try to update tft file.")
+		time.sleep(1)
 		print("Start DownLoad TFT File")
 		sent_file(sent_update_file_name,ser,download_baud)
 		ser.close()
@@ -128,16 +132,18 @@ if __name__ == '__main__':
 	if len(sys.argv)>1:
 			if sys.argv[1]=='-d':
 				sent_update_file_name="MMDVM_USART_HMI_T124_115200.tft"
-				download_baud="115200"
+				download_baud=115200
 				portx="/dev/ttySC0"
+				retry_times=10
 			else:
 				print("invalid argv")
 				raise
 	else:
 		sent_update_file_name=input("Please Input Update File Name[default:MMDVM_USART_HMI_T124_115200.tft]: ") or "MMDVM_USART_HMI_T124_115200.tft"
-		download_baud=int(input("Please Input Download Baud[9600,19200,38400,57600,115200,230400][default:115200]: ") or "115200")
+		download_baud=int(input("Please Input Download Baud[9600,19200,38400,57600,115200,230400][default:115200]: ") or 115200)
 		portx=input("Please Input Serial Port[default:/dev/ttySC0]: ") or "/dev/ttySC0"
-	for retry_time in range(10):
-		run_result=main(sent_update_file_name,download_baud,portx)
+		retry_times=input("Please Input Retry Times[default:10]: ") or 10
+	for retry_time in range(retry_times):
+		run_result=flash_tft_file(sent_update_file_name,download_baud,portx)
 		if run_result:
 			break

@@ -70,5 +70,3 @@ Download Process: 100%|███████████████████
 curl https://cdn.pisugar.com/release/PiSugarUpdate.sh | sudo bash
 ```
 ## 2、与GeekWork X729套件兼容性良好，没问题，大胆用
-Export: Pin6会
-Export: Pin6

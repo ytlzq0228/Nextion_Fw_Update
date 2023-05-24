@@ -61,3 +61,14 @@ Start DownLoad TFT File
 size 2599960, blockNum 635 //Nextion下载会在每接受4096个字节后返回一个确认信号，基于此确认屏幕是否成功接收。但是，没有重传机制，丢包没救，直接重刷。程序在2s内等不到上一个4096字节的确认接收信号，会重新开始，复位硬件，重新刷机。
 Download Process: 100%|██████████████████████████████████████| 635/635 [05:19<00:00,  1.99it/s]
 ```
+
+# 3、已知冲突
+在刷新固件过程中，由于使用了I2C转USART，可能会因为I2C的总线上的其他设备导致I2C转USART的数据流异常。具体原因太复杂了，大家伙自己感兴趣的可以去看看。
+## 1、与PiSugar3套件的I2C设备存在冲突，但是有解，需要更新PiSugar的固件
+[https://github.com/PiSugar/PiSugar/wiki/PiSugar-3-Series](https://github.com/PiSugar/PiSugar/wiki/PiSugar-3-Series)
+```
+curl https://cdn.pisugar.com/release/PiSugarUpdate.sh | sudo bash
+```
+## 2、与GeekWork X729套件兼容性良好，没问题，大胆用
+Export: Pin6会
+Export: Pin6

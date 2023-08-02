@@ -73,3 +73,17 @@ Download Process: 100%|███████████████████
 curl https://cdn.pisugar.com/release/PiSugarUpdate.sh | sudo bash
 ```
 ## 2、与GeekWork X729套件兼容性良好，没问题，大胆用
+
+# 4、Remark
+##关于GPIO针脚的设置
+实际测试发现在不同的树莓派上，SC16IS752上的扩展GPIO定义不一样。修改定义方式如下：
+###1、确认SC16IS752上的扩展GPIO其实资源
+ls -l /sys/class/gpio/
+./../devices/platform/soc/fe804000.i2c/i2c-1/1-004d/gpio/gpiochip496
+找到对应i2c地址路径的gpio芯片，例如496
+###2、修改c/gpio下的SC16IS752GPIO.h
+其中修改#define PIN0 496
+###3、编译生成SC16IS752GPIO.so
+gcc SC16IS752GPIO.c -fPIC -shared -o SC16IS752GPIO.so
+###4、copy SO文件
+cp SC16IS752GPIO.so ..
